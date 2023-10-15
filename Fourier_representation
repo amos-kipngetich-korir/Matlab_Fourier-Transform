@@ -1,0 +1,37 @@
+%Fourier representation is given by f(x)=1/2 ao+∑_(k=0)^n▒〖ancos(nωt)〗+∑_(k=0)^n▒〖bnsin(nωt)〗
+syms x k l n% where x represent the independent variable,k is the harmonics,l is the period and k is the number of the sinusoids
+evalin(symengine,'assume(k,Type::Integer)')%set the variable k as the integer
+a0=@(f,x,l)2*int(f,x,-1,1)/l;%gives the dc value of our approximation
+a=@(f,x,k,l)2*int(f*cos(2*k*pi*(x/l))/l,x,-1,1);
+b=@(f,x,k,l)2*int(f*sin(2*k*pi*(x/l))/l,x,-pi,pi);
+fs=@(f,x,n,l)+0.5*a0(f,x,2)+...
+symsum(a(f,x,k,l)*cos(2*k*pi*(x/l))+ b(f,x,k,l)*sin(2*k*pi*(x/l)),k,1,n);
+f=abs(x);
+ezplot(fs(f,x,1,2),-1,1)
+hold on
+ezplot(abs(x),-1,1)
+title("n=1")
+ezplot(fs(f,x,1,2),-1,1)
+hold on
+ezplot(abs(x),-1,1)
+title("n=1")
+ezplot(fs(f,x,3,2),-1,1)
+hold on
+ezplot(abs(x),-1,1)
+title("n=3")
+ezplot(fs(f,x,5,2),-1,1)
+ezplot(fs(f,x,5,2),-1,1)
+hold on
+ezplot(abs(x),-1,1)
+title("n=5")
+ezplot(fs(f,x,10,2),-1,1)
+ezplot(abs(x),-1,1)
+hold on
+ezplot(fs(f,x,10,2),-1,1)
+title("n=10")
+ezplot(fs(f,x,100,2),-1,1)
+ezplot(fs(f,x,100,2),-1,1)
+hold on
+ezplot(abs(x),-1,1)
+title("n=100")
+diary off
